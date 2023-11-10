@@ -1,7 +1,11 @@
-import { link } from "fs";
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import path from "path";
 import { FC } from "react";
 import { BsFillBugFill } from "react-icons/bs";
+import classnames from "classnames";
 
 interface NavBarProps {}
 const links = [
@@ -16,6 +20,8 @@ const links = [
 ];
 
 const NavBar: FC<NavBarProps> = ({}) => {
+  const pathname = usePathname();
+
   return (
     <nav className='flex space-x-6 border-b mb-5 px-5 h-14 items-center'>
       <Link href='/'>
@@ -27,7 +33,11 @@ const NavBar: FC<NavBarProps> = ({}) => {
             <Link
               key={link.href}
               href={link.href}
-              className='text-zinc-500 hover:text-zinc-800 transition-colors'>
+              className={classnames({
+                "text-zinc-400": link.href !== pathname,
+                "text-zinc-900": link.href === pathname,
+                "hover: text-zinc-800 transition-colors": true,
+              })}>
               {link.label}
             </Link>
           );
